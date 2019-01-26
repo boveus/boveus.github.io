@@ -3,3 +3,17 @@
   width: 5%;
   height: 5%;
 }
+
+header {
+  padding-top: 5%;
+  bottom: 1%;
+  justify-content: center;
+}
+
+.footerbutton {
+  left: 35%;
+  font-size: 32px;
+  outline: none;
+  text-decoration: none;
+}
+
