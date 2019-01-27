@@ -21,3 +21,15 @@
   text-decoration: none;
 }
 
+/* about */
+
+
+.mySlides {
+    display: none;
+    max-height: 80%;
+    max-width: 70%;
+}
+
+.aboutimage {
+    max-height: 100%;
+}
