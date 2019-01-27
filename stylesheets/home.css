@@ -1,13 +1,16 @@
-.headshot {
-  border-radius: 50%;
-  width: 8%;
-  height: 8%;
+.mountains {
+  width: 100%;
+  height: 20%;
 }
 
-header {
-  padding-top: 5%;
-  bottom: 1%;
-  justify-content: center;
+.header {
+  background-image: url('/assets/home/smokies.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 30%;
+  margin: 0 auto;
 }
 
 .footerbutton {
