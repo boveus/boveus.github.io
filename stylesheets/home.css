@@ -44,8 +44,15 @@ a:active {
     display: none;
     max-height: 80%;
     max-width: 70%;
+    position: relative;
 }
 
 .aboutimage {
     max-height: 100%;
+}
+
+.aboutimage-text {
+    position: absolute;
+    top: 8px;
+    max-width: 90%;
 }
