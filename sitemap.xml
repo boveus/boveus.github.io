@@ -3,57 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://brandonsstewart.com/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/blog/</loc>
+    <loc>https://brandonsstewart.com/blog/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/css/</loc>
+    <loc>https://brandonsstewart.com/tags/css/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/html/</loc>
+    <loc>https://brandonsstewart.com/tags/html/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/markdown/</loc>
+    <loc>https://brandonsstewart.com/tags/markdown/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/blog/markdown-syntax-guide/</loc>
+    <loc>https://brandonsstewart.com/blog/markdown-syntax-guide/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/blog/rich-text/</loc>
+    <loc>https://brandonsstewart.com/blog/rich-text/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/shortcodes/</loc>
+    <loc>https://brandonsstewart.com/tags/shortcodes/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://brandonsstewart.com/tags/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/themes/</loc>
+    <loc>https://brandonsstewart.com/tags/themes/</loc>
     <lastmod>2020-06-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://brandonsstewart.com/categories/</loc>
   </url>
   
 </urlset>
