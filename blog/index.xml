@@ -6,10 +6,20 @@
     <description>Recent content in Blogs on Brandons Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 16 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brandonsstewart.com/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Protecting Against Command Injection</title>
+      <link>https://brandonsstewart.com/blog/protecting-against-command-injection/</link>
+      <pubDate>Thu, 16 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://brandonsstewart.com/blog/protecting-against-command-injection/</guid>
+      <description>Portswigger recommends not using system commands at all to prevent this sort of attack: https://portswigger.net/web-security/os-command-injection
+In this post I am going to discuss one of the OWAP top 10 vulnerabilities. I am going to walk through the Redmine) application and how the authors of this application protected it against command injection. I will also provide some general recommendations for how to safely call bash or other system calls in your own code.</description>
+    </item>
     
     <item>
       <title>Markdown Syntax Guide</title>
