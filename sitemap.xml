@@ -4,56 +4,25 @@
   
   <url>
     <loc>https://brandonsstewart.com/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://brandonsstewart.com/blog/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://brandonsstewart.com/tags/css/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/tags/html/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/tags/markdown/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/blog/markdown-syntax-guide/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/blog/rich-text/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/tags/shortcodes/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/tags/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://brandonsstewart.com/tags/themes/</loc>
-    <lastmod>2020-06-05T00:00:00+00:00</lastmod>
+    <loc>https://brandonsstewart.com/blog/protecting-against-command-injection/</loc>
+    <lastmod>2020-07-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://brandonsstewart.com/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://brandonsstewart.com/tags/</loc>
   </url>
   
 </urlset>

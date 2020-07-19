@@ -6,55 +6,9 @@
     <description>Recent content in Tags on Brandons Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 05 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brandonsstewart.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>css</title>
-      <link>https://brandonsstewart.com/tags/css/</link>
-      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://brandonsstewart.com/tags/css/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>html</title>
-      <link>https://brandonsstewart.com/tags/html/</link>
-      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://brandonsstewart.com/tags/html/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>markdown</title>
-      <link>https://brandonsstewart.com/tags/markdown/</link>
-      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://brandonsstewart.com/tags/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>shortcodes</title>
-      <link>https://brandonsstewart.com/tags/shortcodes/</link>
-      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://brandonsstewart.com/tags/shortcodes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>themes</title>
-      <link>https://brandonsstewart.com/tags/themes/</link>
-      <pubDate>Fri, 05 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://brandonsstewart.com/tags/themes/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>

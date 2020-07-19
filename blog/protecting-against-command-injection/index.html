@@ -58,10 +58,10 @@
       "accountablePerson" : "",
       "copyrightHolder" : "",
       "copyrightYear" : "2020",
-      "datePublished": "2020-07-16 00:00:00 \x2b0000 UTC",
-      "dateModified" : "2020-07-16 00:00:00 \x2b0000 UTC",
+      "datePublished": "2020-07-19 00:00:00 \x2b0000 UTC",
+      "dateModified" : "2020-07-19 00:00:00 \x2b0000 UTC",
       "url" : "https:\/\/brandonsstewart.com\/blog\/protecting-against-command-injection\/",
-      "wordCount" : "630",
+      "wordCount" : "1381",
       "keywords" : ["command injection", "security", "secure coding", "command injection protection", "Blog"]
     }
   
@@ -115,16 +115,15 @@ if (!doNotTrack) {
         <div class="post">
           <header class="post__header">
             <h1 id="post__title">Protecting Against Command Injection</h1>
-            <time datetime="2020-07-16 00:00:00 &#43;0000 UTC" class="post__date"
-            >Jul 16 2020</time>
+            <time datetime="2020-07-19 00:00:00 &#43;0000 UTC" class="post__date"
+            >Jul 19 2020</time>
           </header>
           <article class="post__content">
               
-<p>Portswigger recommends not using system commands at all to prevent this sort of attack: <a href="https://portswigger.net/web-security/os-command-injection">https://portswigger.net/web-security/os-command-injection</a></p>
-<p>In this post I am going to discuss one of the OWAP top 10 vulnerabilities. I am going to walk through the <a href="https://github.com/redmine/redmine">Redmine)</a> application and how the authors of this application protected it against command injection.  I will also provide some general recommendations for how to safely call bash or other system calls in your own code.</p>
+<p>In this post I will to walk through a few areas of the <a href="https://github.com/redmine/redmine">Redmine)</a> application and analyze how the authors of this application protected it against command injection vulnerabilities.  I will also provide some general recommendations for how to safely call bash or other system calls in your own code.</p>
 <h2 id="what-is-command-injection">What is command injection?<a class="anchor" href="#what-is-command-injection">#</a></h2>
-<p>Command injection is a type of injection flaw, which is #1 of the OWASP top 10 vulnerabilities.  It is a vulnerability which can allow an attacker to execute arbitrary system commands.</p>
-<h4 id="mitrehttpscwemitreorgdatadefinitions77html-defines-it-as"><a href="https://cwe.mitre.org/data/definitions/77.html">Mitre</a> defines it as</h4>
+<p>Command injection is a type of injection vulnerability which is #1 in the OWASP top 10 vulnerabilities.  It is a vulnerability which can allow an attacker to execute arbitrary system commands.</p>
+<h4 id="mitrehttpscwemitreorgdatadefinitions77html-says-the-following-about-command-injection-vulnerabilities"><a href="https://cwe.mitre.org/data/definitions/77.html">Mitre</a> says the following about command injection vulnerabilities</h4>
 <blockquote>
 <p>Command injection vulnerabilities typically occur when:</p>
 <ol>
@@ -133,9 +132,21 @@ if (!doNotTrack) {
 <li>By executing the command, the application gives an attacker a privilege or capability that the attacker would not otherwise have.</li>
 </ol>
 </blockquote>
+<h2 id="defending-against-command-injection">Defending against command injection<a class="anchor" href="#defending-against-command-injection">#</a></h2>
+<p><a href="https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html">OWASP recommends</a> the following strategies to defend against command injections:</p>
+<ol>
+<li>Avoid calling OS commands directly and use language APIs instead.</li>
+<li>Escape values added to OS commands specific to each OS</li>
+<li>Parameterization to enforce seperation between the data and the command</li>
+<li>Input Validation</li>
+</ol>
+<p>As we will see below, Redmine makes use of the third and fourth OWASP recommendations to defend their application.</p>
+<h2 id="analysis-of-redmine">Analysis of Redmine<a class="anchor" href="#analysis-of-redmine">#</a></h2>
+<p>Redmine is a popular open-source project management tool written in Ruby on Rails.  It provides extensive functionality to interface with Source Control Management (SCM) tools such as Git, Subversion and Mercurial.  It allows users to use a GUI to create, modify, delete, and get information about various SCM repositories.</p>
+<p>In order to support this functionality, the application is required to make various system level command calls.  If these features are not implemented properly, they can leave an application vulnerable to a Remote Command Execution vulnerability.</p>
 <h2 id="brakeman-scan-of-redmine">Brakeman scan of Redmine<a class="anchor" href="#brakeman-scan-of-redmine">#</a></h2>
-<p>One of the first steps when analyzing a Rails application for a vulnerability, is to use <a href="brakeman.url">Brakeman</a>.  Brakeman is a powerful static code analysis tool and can often detect potentially vulnerable areas of code. Amongst other warnings, Brakeman produced the following warning related to Command Injection in the <code>abstract_adapter.rb</code> file.  At first glance this looks like a vulnerable implementation of the <code>IO.popen</code> method.</p>
-<p>sdadadsadadadsad</p>
+<p>One of the first steps when analyzing a Ruby on Rails application for a vulnerability is to use <a href="https://brakemanscanner.org/">Brakeman</a>.  Brakeman is a powerful, open source static code analysis tool and can often detect potential vulnerabilities in a Rails application.</p>
+<p>Among other warnings, Brakeman produced the following warning related to a potential <code>Command Injection</code> vulnerability in the <code>abstract_adapter.rb</code> file.  At first glance this looks like a vulnerable implementation of the <code>IO.popen</code> method.</p>
 <pre><code class="language-shell">Confidence: Medium
 Category: Command Injection
 Check: Execute
@@ -144,8 +155,9 @@ Code: IO.popen(&quot;#{cmd} 2&gt;&gt;#{shell_quote(stderr_log_file)}&quot;, &quo
 File: lib/redmine/scm/adapters/abstract_adapter.rb
 Line: 247
 </code></pre>
+<p>Let&rsquo;s walk through this code and see if an attacker could potentially abuse this functionality.</p>
 <h2 id="abstractadapter">AbstractAdapter<a class="anchor" href="#abstractadapter">#</a></h2>
-<p>Within the <code>AbstractAdapter</code> it looks like the vulnerable method is inside the following method in <code>AbstractAdapter</code> in the <code>shellout</code> <a href="https://github.com/redmine/redmine/blob/master/lib/redmine/scm/adapters/abstract_adapter.rb#L247">method</a>:</p>
+<p>It looks like the call to <code>IO.popen</code> is inside the <code>shellout</code> in the <code>AbstractAdapter</code> class:</p>
 <pre><code class="language-ruby">def shellout(cmd, options = {}, &amp;block)
     ...
     begin
@@ -158,9 +170,9 @@ Line: 247
     ...
 end
 </code></pre>
-<p>It looks like this method simply receives the <code>cmd</code> variable, and passes it to the <code>IO.popen</code>.  So far, it seems that this method is vulnerable.  The <code>AbstractAdapter</code> is a superclass for various adapters that Redmine uses to process SCM commands to various VCS systems.  We will need to look at some of the subclasses to find where <code>shellout</code> is called.</p>
+<p>It looks like this method simply receives the <code>cmd</code> variable and passes it to <code>IO.popen</code>.  So far there is no sanitization against the <code>cmd</code> variable.  The <code>AbstractAdapter</code> is a superclass for various adapters that Redmine uses to process SCM commands to various VCS systems.  We will need to look at some of the subclasses to find where <code>shellout</code> is called.</p>
 <h2 id="gitadapter">GitAdapter<a class="anchor" href="#gitadapter">#</a></h2>
-<p>Within the <code>GitAdapter</code> class, there are only two calls to <code>shellout</code>.  One of which occurs in the <code>git_cmd</code> helper method:</p>
+<p>Within the <code>GitAdapter</code> subclass, which inherits from the <code>AbstractAdapter</code> superclass, there are only two calls to <code>shellout</code>.  One of these is in the <code>git_cmd</code> method:</p>
 <pre><code class="language-ruby">def git_cmd(args, options = {}, &amp;block)
   repo_path = root_url || url
   full_args = ['--git-dir', repo_path]
@@ -182,9 +194,33 @@ end
   ret
 end
 </code></pre>
-<p>There is a lot going on here, but it seems that the <code>args</code> argument is appended to the <code>full_args</code> array.  The <code>full_args</code> array is mapped over and the <code>shell_quote</code> method is used against each element, and they are joined by a space.</p>
+<p>There is a lot going on here, but it seems that the <code>args</code> argument is appended to the <code>full_args</code> array, which is appended to the value of <code>sq_bin</code>.  The <code>full_args</code> is mapped over and the <code>shell_quote</code> method is used against each element, and they are joined by a space.</p>
+<p><code>sq_bin</code> is not able to be controlled by a user and will be <code>git</code>, unless otherwise specified in a configuration file.</p>
+<pre><code class="language-ruby">class GitAdapter
+  def sq_bin
+   @@sq_bin ||= shell_quote_command
+  end
+
+  GIT_BIN = Redmine::Configuration['scm_git_command'] || &quot;git&quot;
+
+  def client_command
+    @@bin    ||= GIT_BIN
+  end
+...
+class AbstractAdapter
+  def shell_quote_command
+    Redmine::Utils::Shell.shell_quote_command client_command
+  end
+...
+</code></pre>
+<p>The <code>shellout</code> call ends up looking like this:</p>
+<pre><code class="language-ruby">shellout(
+  'git' + ' ' + '--git-dir' + ' ' + repo_path + ' ' + shellquote(arg[0].to_s) + ' ' + shellquote(arg[1].to_s)
+)
+</code></pre>
+<p>Each user-controlled parameter is passed to the <code>shellquote</code> method before being passed to the <code>shellout</code> method</p>
 <h2 id="utils">Utils<a class="anchor" href="#utils">#</a></h2>
-<p>Looking further through the codebase, it appears that the <code>shell_quote</code> method is defined in the <code>Utils</code> <a href="https://github.com/redmine/redmine/blob/master/lib/redmine/utils.rb">module</a></p>
+<p>Looking further through the codebase, it appears that the <code>shell_quote</code> method is defined in the <code>Utils</code> module and is what is actually used here to provide protection against command injection.</p>
 <pre><code class="language-Ruby">  def shell_quote(str)
     if Redmine::Platform.mswin?
       '&quot;' + str.gsub(/&quot;/, '\\&quot;') + '&quot;'
@@ -193,15 +229,53 @@ end
     end
   end
 </code></pre>
-<p>This method receives a string and, depending on the OS, wraps the quote character in single quotes.  It then wraps the final string in quotes - double quotes in Windows, single quotes in other OSes.  The quotes here are important.</p>
-<p>It seems that this particular area of the code, even if we can control the input, will not result in a malicious command being executed.</p>
-<p>There is a very subtle caveat to this protection.</p>
-<p>It is important to note that they wrapped the bash command in <em>single quotes</em>.  This allows an attacker to interpolate values.  For example:</p>
-<pre><code class="language-shell">echo 'git branch '&quot;$BASH&quot;''
+<p>This method receives a string and, depending on the OS, escapes certain quote characters.  It wraps the full string in double quotes in Windows and single quotes in other OSes (Linux for example).</p>
+<p>It seems that this particular area of the code even if we can control the input will have a limited potential for being exploited.</p>
+<p>For example, a command injection attack would involve the addition of an argument that can allow for an arbitrary command of some kind such as <code>;</code>, <code>|</code>, or <code>&gt;&gt;</code>.  In code that is vulnerable to command injection it would produce a command like the following:</p>
+<pre><code class="language-shell">git branch branch-name|touch haxxed.txt
 </code></pre>
-<p>will produce the command</p>
-<pre><code>git branch /bin/bash
+<p>This command would result in unintended behavior since the attacker is able to execute an arbitrary command using the <code>|</code> operator.</p>
+<p>This command, however, does not permit parameter expansion and the quoted string is interpreted as a single argument.</p>
+<pre><code class="language-shell">git branch 'branch-name|touch haxxed.txt'
 </code></pre>
+<p>This is a good example of OWASP&rsquo;s recommendation regarding the separation between the data and the command.  In this case, the data (the branch name) is separated from the command, <code>git branch</code>.  This leaves a potential attacker with no obvious way of manipulating the <code>command</code> being called, even though they could manipulate the <code>data</code> that is being passed to the command.</p>
+<h3 id="why-does-the-quote-work-here">Why does the quote work here?<a class="anchor" href="#why-does-the-quote-work-here">#</a></h3>
+<p><a href="https://www.gnu.org/software/bash/manual/html_node/Quoting.html">GNU</a> offers the following information about quoting shell commands:</p>
+<p>Quoting is used to remove the special meaning of certain characters or words to the shell. Quoting can be used to disable special treatment for special characters, to prevent reserved words from being recognized as such, and to prevent parameter expansion.</p>
+<h2 id="subversionadapter">SubversionAdapter<a class="anchor" href="#subversionadapter">#</a></h2>
+<p>Another interesting method exists in the <code>SubversionAdapter</code> class.  At first glance this code also seemed to be vulnerable, but further inspection shows that it is not.</p>
+<pre><code class="language-ruby">  def entries(path=nil, identifier=nil, options={})
+    path ||= ''
+    identifier = (identifier and identifier.to_i &gt; 0) ? identifier.to_i : &quot;HEAD&quot;
+    entries = Entries.new
+    cmd = +&quot;#{self.class.sq_bin} list --xml #{target(path)}@#{identifier}&quot;
+    cmd &lt;&lt; credentials_string
+    shellout(cmd) do |io|
+      ...
+  end
+</code></pre>
+<p>This code also receives user controlled input in the form of the <code>path</code> and <code>identifier</code> arguments.  On the second line of this method uses a ternary statement to either coerce the argument into an integer, using <code>.to_i</code>, or to set that value to <code>HEAD</code>.  This means that the <code>identifier</code> is likely not a vector for attack here.</p>
+<p>This is an example of OWASP&rsquo;s recommendation regarding <code>input validation</code>.  In this case, the attacker can only pass an integer here, so there is also a very limited potential attack vector here.</p>
+<p>The <code>path</code> variable is interesting, though.  It seems that it is passed to the <code>target</code> method and then interpolated here.</p>
+<p>Looking in the <code>AbstractAdapter</code>, the <code>path</code> method is defined here:</p>
+<pre><code class="language-ruby">def target(path, sq=true)
+  path ||= ''
+  base = /^\//.match?(path) ? root_url : url
+  str = &quot;#{base}/#{path}&quot;.gsub(/[?&lt;&gt;\*]/, '')
+  if sq
+    str = shell_quote(str)
+  end
+  str
+end
+</code></pre>
+<p>It looks like we see the <code>shell_quote</code> method is also used here. Since the <code>sq</code> argument defaults to <code>true</code>, the <code>entries</code> method in the subversion adapter is also not vulnerable.</p>
+<h1 id="protecting-against-command-injection-attacks">Protecting against Command Injection attacks</h1>
+<p>As we saw above, the Redmine application implemented the following strategies to protect against Command injection:</p>
+<ol>
+<li>Parameterization to enforce separation between the data and the command</li>
+<li>Input Validation</li>
+</ol>
+<p>If you <em>have</em> to call a command directly, ensure that you separate the <code>data</code> from the <code>command</code>.  This is accomplished by wrapping the <code>data</code> in quotes.  You should also ensure that any data that is not separated is validated or sanitized in some way before being passed to the system call.</p>
 
 
               
@@ -209,11 +283,6 @@ end
           
 
  <div class="pagination">
-  
-    <a class="pagination__item" href="https://brandonsstewart.com/blog/markdown-syntax-guide/">
-        <span class="pagination__label">Previous Post</span>
-        <span class="pagination__title">Markdown Syntax Guide</span>
-    </a>
   
 
   
