@@ -17,7 +17,7 @@
       <pubDate>Sun, 19 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>https://brandonsstewart.com/blog/protecting-against-command-injection/</guid>
-      <description>In this post I will to walk through a few areas of the Redmine) application and analyze how the authors of this application protected it against command injection vulnerabilities. I will also provide some general recommendations for how to safely call bash or other system calls in your own code.
+      <description>In this post I will to walk through a few areas of the Redmine application and analyze how the authors of this application protected it against command injection vulnerabilities. I will also provide some general recommendations for how to safely call bash or other system calls in your own code.
 What is command injection? Command injection is a type of injection vulnerability which is #1 in the OWASP top 10 vulnerabilities.</description>
     </item>
     
