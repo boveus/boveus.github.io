@@ -269,7 +269,7 @@ class AbstractAdapter
 end
 </code></pre>
 <p>It looks like we see the <code>shell_quote</code> method is also used here. Since the <code>sq</code> argument defaults to <code>true</code>, the <code>entries</code> method in the subversion adapter is also not vulnerable.</p>
-<h1 id="protecting-against-command-injection-attacks">Protecting against Command Injection attacks</h1>
+<h2 id="protecting-against-command-injection-attacks">Protecting against Command Injection attacks<a class="anchor" href="#protecting-against-command-injection-attacks">#</a></h2>
 <p>As we saw above, the Redmine application implemented the following strategies to protect against Command injection:</p>
 <ol>
 <li>Parameterization to enforce separation between the data and the command</li>
@@ -285,6 +285,11 @@ end
  <div class="pagination">
   
 
+  
+    <a class="pagination__item" href="https://brandonsstewart.com/blog/guide-to-burp-suite/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >A guide to Burp-suite</a>
+    </a>
   
 </div>
 
