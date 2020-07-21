@@ -6,7 +6,7 @@
     <description>Recent content on Brandon&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 19 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brandonsstewart.com/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>A guide to Burp-suite</title>
       <link>https://brandonsstewart.com/blog/guide-to-burp-suite/</link>
-      <pubDate>Sun, 19 Jul 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 20 Jul 2020 00:00:00 +0000</pubDate>
       
       <guid>https://brandonsstewart.com/blog/guide-to-burp-suite/</guid>
       <description>In this article I will discuss some of the features I most commonly use in the Burp Suite tool. I will also provide a sample of some of the Ruby scripts that I have written and used in conjunction with it.
