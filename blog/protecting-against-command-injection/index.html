@@ -61,7 +61,7 @@
       "datePublished": "2020-07-19 00:00:00 \x2b0000 UTC",
       "dateModified" : "2020-07-19 00:00:00 \x2b0000 UTC",
       "url" : "https:\/\/brandonsstewart.com\/blog\/protecting-against-command-injection\/",
-      "wordCount" : "1381",
+      "wordCount" : "1382",
       "keywords" : ["command injection", "security", "secure coding", "command injection protection", "Blog"]
     }
   
@@ -157,7 +157,7 @@ Line: 247
 </code></pre>
 <p>Let&rsquo;s walk through this code and see if an attacker could potentially abuse this functionality.</p>
 <h2 id="abstractadapter">AbstractAdapter<a class="anchor" href="#abstractadapter">#</a></h2>
-<p>It looks like the call to <code>IO.popen</code> is inside the <code>shellout</code> in the <code>AbstractAdapter</code> class:</p>
+<p>It looks like the call to <code>IO.popen</code> is inside the <code>shellout</code> method in the <code>AbstractAdapter</code> class:</p>
 <pre><code class="language-ruby">def shellout(cmd, options = {}, &amp;block)
     ...
     begin
