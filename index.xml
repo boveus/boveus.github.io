@@ -31,5 +31,14 @@ What is Burp Suite? Portswigger, the creator of Burp Suite, describes the Commun
 What is command injection? Command injection is a type of injection vulnerability which is #1 in the OWASP top 10 vulnerabilities.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://brandonsstewart.com/_admin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://brandonsstewart.com/_admin/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
