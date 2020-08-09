@@ -6,10 +6,19 @@
     <description>Recent content on Brandon&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://brandonsstewart.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Secure Authentication Mechanisms</title>
+      <link>https://brandonsstewart.com/blog/secure-authentication-mechanisms/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://brandonsstewart.com/blog/secure-authentication-mechanisms/</guid>
+      <description>In this post I will walk through a few areas of the Cachet application and analyze how the authors handled various authentication mechanisms and stored sensitive data. I will cover some of the best practices related to storing user passwords and other secure tokens as well as how the authors implemented two factor authentication. I will go into detail about some of the vulnerabilities in 2FA and how to harden a 2FA implementation.</description>
+    </item>
     
     <item>
       <title>A guide to Burp Suite</title>
